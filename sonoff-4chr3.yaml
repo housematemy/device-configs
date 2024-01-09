@@ -1,0 +1,119 @@
+substitutions:
+  name: sonoff-4chr3
+  friendly_name: Sonoff 4CHR3
+
+esphome:
+  name: ${name}
+  friendly_name: ${friendly_name}
+  name_add_mac_suffix: True
+  project:
+    name: Housemate.Sonoff-4CHR3
+    version: "1.0"
+
+esp8266:
+  board: esp8285
+
+# Enable logging
+logger:
+    
+# Enable Home Assistant API
+api:
+
+ota:
+
+dashboard_import:
+  package_import_url: github://housematemy/device-configs/sonoff-4chr3.yaml@main
+  import_full_config: false # or true
+
+wifi:
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    password: "01175257535"
+
+captive_portal:
+
+web_server:
+  port: 80
+
+# Device Specific Config
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO0
+      mode: INPUT_PULLUP
+      inverted: True
+    name: "Button 1"
+    on_press:
+      - switch.toggle: "relay_1"
+    internal: true
+  - platform: gpio
+    pin:
+      number: GPIO9
+      mode: INPUT_PULLUP
+      inverted: True
+    name: "Button 2"
+    on_press:
+      - switch.toggle: "relay_2"
+    internal: true
+  - platform: gpio
+    pin:
+      number: GPIO10
+      mode: INPUT_PULLUP
+      inverted: True
+    name: "Button 3"
+    on_press:
+      - switch.toggle: "relay_3"
+    internal: true
+  - platform: gpio
+    pin:
+      number: GPIO14
+      mode: INPUT_PULLUP
+      inverted: True
+    name: "Button 4"
+    on_press:
+      - switch.toggle: "relay_4"
+    internal: true
+
+  - platform: status
+    name: "Status"
+
+switch:
+  - platform: gpio
+    name: "Switch 1"
+    pin: GPIO12
+    id: "relay_1"
+  - platform: gpio
+    name: "Switch 2"
+    pin: GPIO5
+    id: "relay_2"
+  - platform: gpio
+    name: "Switch 3"
+    pin: GPIO4
+    id: "relay_3"
+  - platform: gpio
+    name: "Switch 4"
+    pin: GPIO15
+    id: "relay_4"
+
+status_led:
+  pin:
+    number: GPIO13
+    inverted: True
+    allow_other_uses: true
+
+output:
+  - platform: esp8266_pwm
+    id: blue_led
+    pin:
+      number: GPIO13
+      allow_other_uses: true
+    inverted: True
+
+light:
+  - platform: monochromatic
+    name: "Blue LED"
+    output: blue_led
+    restore_mode: ALWAYS_ON
+    internal: true
+
+
