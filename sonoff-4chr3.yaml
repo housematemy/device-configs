@@ -116,4 +116,8 @@ light:
     restore_mode: ALWAYS_ON
     internal: true
 
+  button:
+  - platform: restart
+    name: "Restart"
+    id: button_restart
 
