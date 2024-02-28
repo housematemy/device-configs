@@ -1,0 +1,109 @@
+esphome:
+  name: sonoff-m5-1c
+  friendly_name: Sonoff M5 1 Gang
+  name_add_mac_suffix: True
+  project:
+    name: Housemate.Sonoff-M5-1C
+    version: "1.0"
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+    
+# Enable Home Assistant API
+api:
+
+ota:
+
+dashboard_import:
+  package_import_url: github://housematemy/device-configs/sonoff-m5-1c.yaml@main
+  import_full_config: false # or true
+
+wifi:
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    password: "01175257535"
+
+captive_portal:
+
+web_server:
+  port: 80
+
+sensor:  
+  - platform: wifi_signal
+    name: "RSSI"
+    id: sensor_rssi
+    update_interval: 90s
+    entity_category: "diagnostic"
+
+  - platform: uptime
+    name: "Uptime"
+    id: sensor_uptime
+    update_interval: 300s
+    entity_category: "diagnostic"
+
+button:
+  - platform: restart
+    name: "Restart"
+    id: button_restart
+
+switch:
+  - platform: gpio
+    name: "Switch"
+    pin: GPIO23
+    id: relay_1
+    on_turn_on:
+      - output.turn_on: led
+    on_turn_off:
+      - output.turn_off: led
+
+output:
+  - platform: ledc
+    id: pwm_output
+    pin: GPIO18
+    frequency: 1000 Hz
+
+  - platform: gpio
+    id: led
+    pin:
+      number: GPIO19
+      inverted: False
+
+binary_sensor:
+  - platform: gpio
+    name: "Single"
+    pin:
+      number: GPIO00
+      mode: INPUT_PULLUP
+      inverted: False
+    on_press:
+      - switch.toggle: relay_1
+
+  - platform: gpio
+    id: "fixgpio"
+    pin:
+      number: GPIO16
+      mode:
+        input: true
+        pullup: true 
+
+light:
+  - platform: status_led
+    name: "Connection LED"
+    id: led_status
+    pin:
+      number: GPIO05
+      inverted: True
+    restore_mode: ALWAYS_OFF
+    entity_category: 'config'
+
+  - platform: monochromatic
+    output: pwm_output
+    name: "LEDs"
+    restore_mode: RESTORE_DEFAULT_OFF
+    icon: 'mdi:led-outline'
+    entity_category: 'config'
