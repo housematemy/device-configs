@@ -6,10 +6,6 @@ esphome:
     name: Housemate.Sonoff-M5-2C
     version: "1.0"
 
-dashboard_import:
-  package_import_url: github://housematemy/device-configs/sonoff-m5-2c.yaml@main
-  import_full_config: false
-
 esp32:
   board: esp32dev
   framework:
@@ -22,6 +18,10 @@ logger:
 api:
 
 ota:
+
+dashboard_import:
+  package_import_url: github://housematemy/device-configs/sonoff-m5-2c.yaml@main
+  import_full_config: false # or true
 
 wifi:
   # Enable fallback hotspot (captive portal) in case wifi connection fails
