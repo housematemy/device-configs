@@ -56,16 +56,19 @@ switch:
     name: "Left"
     pin: GPIO23
     id: relay_1
+    restore_mode: RESTORE_DEFAULT_OFF
 
   - platform: gpio
     name: "Middle"
     pin: GPIO19
     id: relay_2
+    restore_mode: RESTORE_DEFAULT_OFF
 
   - platform: gpio
     name: "Right"
     pin: GPIO22
     id: relay_3
+    restore_mode: RESTORE_DEFAULT_OFF
 
 output:
   - platform: ledc

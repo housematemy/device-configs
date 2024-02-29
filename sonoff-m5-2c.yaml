@@ -56,11 +56,13 @@ switch:
     name: "Left"
     pin: GPIO23
     id: relay_1
+    restore_mode: RESTORE_DEFAULT_OFF
 
   - platform: gpio
     name: "Right"
     pin: GPIO19
     id: relay_2
+    restore_mode: RESTORE_DEFAULT_OFF
     on_turn_on:
       - output.turn_on: led_2
     on_turn_off:

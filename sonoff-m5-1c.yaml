@@ -56,6 +56,7 @@ switch:
     name: "Switch"
     pin: GPIO23
     id: relay_1
+    restore_mode: RESTORE_DEFAULT_OFF
     on_turn_on:
       - output.turn_on: led
     on_turn_off:
