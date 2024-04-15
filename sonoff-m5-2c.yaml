@@ -4,7 +4,7 @@ esphome:
   name_add_mac_suffix: True
   project:
     name: Housemate.Sonoff-M5-2C
-    version: "1.2"
+    version: "1.0"
 
 esp32:
   board: esp32dev
