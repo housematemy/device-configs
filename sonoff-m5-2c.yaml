@@ -7,21 +7,24 @@ esphome:
     version: "1.0"
 
 esp32:
-  board: esp32dev
+  board: esp32
   framework:
     type: arduino
 
 # Enable logging
 logger:
-
+  level: INFO
 # Enable Home Assistant API
 api:
 
 ota:
+  - platform: esphome
 
 dashboard_import:
   package_import_url: github://housematemy/device-configs/sonoff-m5-2c.yaml@main
-  import_full_config: false # or true
+  import_full_config: true
+
+bluetooth_proxy:
 
 wifi:
   # Enable fallback hotspot (captive portal) in case wifi connection fails
@@ -56,13 +59,11 @@ switch:
     name: "Left"
     pin: GPIO23
     id: relay_1
-    restore_mode: RESTORE_DEFAULT_OFF
 
   - platform: gpio
     name: "Right"
     pin: GPIO19
     id: relay_2
-    restore_mode: RESTORE_DEFAULT_OFF
     on_turn_on:
       - output.turn_on: led_2
     on_turn_off:
@@ -81,6 +82,22 @@ output:
     frequency: 1000 Hz
 
 binary_sensor:
+  - platform: status
+    name: "Status"
+    id: sensor_status
+
+  - platform: template
+    name: "API connected"
+    id: sensor_api_connected
+    internal: True
+    entity_category: "diagnostic"
+    device_class: "connectivity"
+    lambda: return global_api_server->is_connected();
+    on_press:
+      - light.turn_on: led_status
+    on_release:
+      - light.turn_off: led_status
+      
   - platform: gpio
     name: "Left"
     pin:
@@ -114,8 +131,8 @@ light:
     pin:
       number: GPIO05
       inverted: True
+    internal: True
     restore_mode: ALWAYS_OFF
-    entity_category: 'config'
 
   - platform: monochromatic
     output: pwm_output
