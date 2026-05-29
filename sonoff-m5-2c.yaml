@@ -24,6 +24,8 @@ dashboard_import:
   package_import_url: github://housematemy/device-configs/sonoff-m5-2c.yaml@main
   import_full_config: true
 
+esp32_ble_tracker:
+
 bluetooth_proxy:
 
 wifi:
